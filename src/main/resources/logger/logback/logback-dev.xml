@@ -1,0 +1,117 @@
+<included>
+	<include resource="logger/logback/logback-base.xml"/>
+	
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <withJansi>true</withJansi> -->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="CONSOLE_INTG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${INTEGRATION_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+	<appender name="FILE_INTG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${INTEGRATION_LOG_HOME}/${HOSTNAME}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+			<fileNamePattern>${INTEGRATION_LOG_HOME}/${HOSTNAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>2</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>${INTEGRATION_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>  
+
+	<logger name="com"  level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<!-- Spring -->
+	<logger name="org"  level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="org.springframework"  level="WARN"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.boot.autoconfigure"  level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.core" level="INFO" additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.beans" level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.context" level="INFO" additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.http" level="DEBUG" additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.web" level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.security" level="INFO" additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" level="DEBUG" additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="DEBUG"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.test.web.servlet" additivity="false"  level="DEBUG" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework.cloud.sleuth.instrument.web" additivity="false"  level="INFO" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<!-- [End] Spring log -->
+	<!-- 3rd Party -->
+	<logger name="io.lettuce"  level="INFO"  additivity="false" >
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<!-- SQL log -->
+	<logger name="org.springframework.jdbc" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="access" level="TRACE" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.mybatis" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<!-- 오류 -->
+	<logger name="errorTrace" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<!-- Accesslog -->
+	<logger name="access" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<!-- tracelog -->
+	<logger name="trace" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<!-- icas i/o log -->
+	<logger name="icasio" level="TRACE" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>	
+	<!-- 업무 -->
+	<logger name="com.skt.scm" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<!-- Root INFO declaration -->
+	<root level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</included>
