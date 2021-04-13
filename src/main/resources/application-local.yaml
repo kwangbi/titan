@@ -22,8 +22,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test
-    username: ENC(+zZYMhA8HWig3ldXIOs7VQ==)
-    password: ENC(ZyCtqPOISMyg2SxkNDIHyQ==)
+    username: root
+    password: root
 
 server:
   port: 7001
