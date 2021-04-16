@@ -1,4 +1,4 @@
-package com.greece.titan.common.redis.service;
+package com.greece.titan.common.redis.cache.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.greece.titan.common.exception.BusinessException;
-import com.greece.titan.common.redis.cache.CacheConstants;
-import com.greece.titan.common.redis.cache.CacheConstants.BACKING_REDIS_CACHE;
+import com.greece.titan.common.redis.CacheConstants;
+import com.greece.titan.common.redis.CacheConstants.BACKING_REDIS_CACHE;
+import com.greece.titan.common.redis.CacheConstants.RedisCommands;
+import com.greece.titan.common.redis.CacheConstants.RedisOpType;
+import com.greece.titan.common.redis.CacheConstants.RedisType;
 import com.greece.titan.common.redis.util.RedisLoaderUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -20,7 +23,7 @@ public abstract class BaseCacheService implements CacheServcie {
 
     @Override
     public String getEntryName(final String entry) {
-        Optional<CacheConstants.BACKING_REDIS_CACHE> cache = BACKING_REDIS_CACHE.of(entry);
+        Optional<BACKING_REDIS_CACHE> cache = BACKING_REDIS_CACHE.of(entry);
         if (cache.isPresent()) {
             return cache.get().name();
         } else {
@@ -29,7 +32,7 @@ public abstract class BaseCacheService implements CacheServcie {
     }
 
     @Override
-    public Object getKeysByEntryName(final String metaSet, final CacheConstants.RedisType redisType) {
+    public Object getKeysByEntryName(final String metaSet, final RedisType redisType) {
         int type = getRedisOpType(metaSet, redisType);
         if (type == 1 || type == 3) {
             List<String> keys = new ArrayList<>();
@@ -72,13 +75,13 @@ public abstract class BaseCacheService implements CacheServcie {
     }
 
     @Override
-    public <T> T getKeysByEntryName(final String metaSet, final Class<T> clazz, final CacheConstants.RedisType redisType) {
+    public <T> T getKeysByEntryName(final String metaSet, final Class<T> clazz, final RedisType redisType) {
         final Object result = getKeysByEntryName(metaSet, redisType);
         return RedisLoaderUtils.convertInstanceOfObject(result, clazz);
     }
 
     @Override
-    public Object getKeyByEntryNameAndId(final String metaSet, final String id, final CacheConstants.RedisType redisType) {
+    public Object getKeyByEntryNameAndId(final String metaSet, final String id, final RedisType redisType) {
         int type = getRedisOpType(metaSet, redisType);
         if (type == 1) {
             return getRedisTemplate(redisType).opsForValue().get(getEntryName(metaSet) + ":" + id);
@@ -94,18 +97,18 @@ public abstract class BaseCacheService implements CacheServcie {
     }
 
     @Override
-    public <T> T getKeyByEntryNameAndId(final String metaSet, final String id, final Class<T> clazz, final CacheConstants.RedisType redisType) {
+    public <T> T getKeyByEntryNameAndId(final String metaSet, final String id, final Class<T> clazz, final RedisType redisType) {
         final Object result = getKeyByEntryNameAndId(metaSet, id, redisType);
         return RedisLoaderUtils.convertInstanceOfObject(result, clazz);
     }
 
     @Override
-    public int getRedisOpType(final String entry, final CacheConstants.RedisType redisType) {
+    public int getRedisOpType(final String entry, final RedisType redisType) {
         Optional<BACKING_REDIS_CACHE> cache = BACKING_REDIS_CACHE.of(entry);
         if (!cache.isPresent()) {
             throw new BusinessException("BRL0003");
         }
-        CacheConstants.RedisOpType op = null;
+        RedisOpType op = null;
         if (cache.get().isMultiLoad()) {
             op = cache.get().getOpTypes()
                     .stream()
@@ -116,18 +119,17 @@ public abstract class BaseCacheService implements CacheServcie {
             op = cache.get().getOpTypes().get(0);
         }
 
-        if (CacheConstants.RedisCommands.SET.equals(op.getRedisCmd()) && op.isUseNamespace()) {
+        if (RedisCommands.SET.equals(op.getRedisCmd()) && op.isUseNamespace()) {
             return 1;
-        } else if (CacheConstants.RedisCommands.SET.equals(op.getRedisCmd()) && !op.isUseNamespace()) {
+        } else if (RedisCommands.SET.equals(op.getRedisCmd()) && !op.isUseNamespace()) {
             return 2;
-        } else if (CacheConstants.RedisCommands.HSET.equals(op.getRedisCmd()) && op.isUseNamespace()) {
+        } else if (RedisCommands.HSET.equals(op.getRedisCmd()) && op.isUseNamespace()) {
             return 3;
-        } else if (CacheConstants.RedisCommands.HSET.equals(op.getRedisCmd()) && !op.isUseNamespace()) {
+        } else if (RedisCommands.HSET.equals(op.getRedisCmd()) && !op.isUseNamespace()) {
             return 4;
         } else {
             throw new BusinessException("BRL0007");
         }
     }
-
 
 }

@@ -1,8 +1,8 @@
-package com.greece.titan.common.redis.service;
+package com.greece.titan.common.redis.cache.service;
 
 import javax.annotation.Resource;
 
-import com.greece.titan.common.redis.cache.CacheConstants;
+import com.greece.titan.common.redis.CacheConstants;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

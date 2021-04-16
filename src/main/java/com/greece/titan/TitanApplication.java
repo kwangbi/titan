@@ -9,6 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class TitanApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(TitanApplication.class, args);
     }
 

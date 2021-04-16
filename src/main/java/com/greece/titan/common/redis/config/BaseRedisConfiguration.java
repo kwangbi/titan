@@ -26,7 +26,13 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 
+/**
+ * 업무명: 기본 Redis 설정
+ * 설  명: 기본 Redis 설정
+ * @see org.springframework.boot.autoconfigure.data.redis.LettuceConnectionConfiguration
+ */
 public abstract class BaseRedisConfiguration {
+
     private boolean isCluster = false;
     private boolean isSentinel = false;
 
@@ -35,8 +41,6 @@ public abstract class BaseRedisConfiguration {
     public DefaultClientResources lettuceClientResources() {
         return DefaultClientResources.create();
     }
-
-    public abstract RedisProperties redisProperties();
 
     /**
      * Redis Properties를 이용한 LettuceConnectionFactory 생성
@@ -163,9 +167,6 @@ public abstract class BaseRedisConfiguration {
 
     /**
      * Redis Properties 설정 값이 Cluster인지 확인
-     * 작성자: 김태형
-     * 작성일: 2018. 4. 11
-     *
      * @param properties
      * @return (Boolean) 판경 결과
      */

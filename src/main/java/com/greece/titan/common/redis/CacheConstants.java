@@ -1,48 +1,47 @@
-package com.greece.titan.common.redis.cache;
+package com.greece.titan.common.redis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CacheConstants {
 
+    public static final String PREFIX_BASE_SPRING_PROPERTIES = "spring";
+    public static final String PREFIX_BASE_REDIS_PROPERTIES = "redis";
+    public static final String PREFIX_DEFAULT_REDIS_PROPERTIES = PREFIX_BASE_SPRING_PROPERTIES + "." + PREFIX_BASE_REDIS_PROPERTIES;
+
+    public static final String PREFIX_BASE_TITAN_PROPERTIES = "titan";
+    public static final String PREFIX_BASE_MAIN_PROPERTIES = "main";
+    public static final String PREFIX_BASE_TITAN_REDIS_PROPERTIES = PREFIX_BASE_TITAN_PROPERTIES + "." + PREFIX_BASE_REDIS_PROPERTIES;
+    public static final String PREFIX_TITAN_REDIS_PROPERTIES = PREFIX_BASE_TITAN_REDIS_PROPERTIES + "." + PREFIX_BASE_MAIN_PROPERTIES;
+
     public static final int SCAN_LIMITS = 10000;
+    public static enum RedisType {MS};
 
-    public static enum RedisSerializerTypes {
-        String,
-        GenericJackson2Json,
-        JdkSerialization
-    };
-
-    public static enum RedisType {BFF, MS, Node};
-
+    /* List of a Cache Service */
     public static enum BACKING_REDIS_CACHE {
-
-        /** 요금제 변경 메시지 */
-        ProductChgGuidMsg(new RedisOpType(RedisType.Node, RedisCommands.SET, true)),
-        /** STORE 상품관리 */
-        StoreProduct(new RedisOpType(RedisType.Node, RedisCommands.SET, true));
+        AppVersion(new RedisOpType(RedisType.MS, RedisCommands.SET, true));
+        //StoreProduct(new RedisOpType(RedisType.MS, RedisCommands.SET, true));
 
         private List<RedisOpType> opTypes;//Redis Operation 유형
         public List<RedisOpType> getOpTypes() {
             return this.opTypes;
         }
-
         public void setRedisOpTypes(final List<RedisOpType> redisOpType) {
             this.opTypes = redisOpType;
         }
         public boolean isMultiLoad() {
             return this.opTypes != null && this.opTypes.size() > 1 ? true : false;
         }
-
         public static Optional<BACKING_REDIS_CACHE> of(final String value) {
             return Arrays.asList(values())
                     .stream()
                     .filter(x -> x.name().equalsIgnoreCase(value))
                     .findFirst();
         }
-
         BACKING_REDIS_CACHE(final RedisOpType... args) {
             if (args != null && args.length > 0) {
                 List<RedisOpType> list = new ArrayList<>();
@@ -52,13 +51,27 @@ public class CacheConstants {
                 this.setRedisOpTypes(list);
             }
         }
+    }
 
+    public static enum RedisSerializerTypes {
+        String,
+        GenericJackson2Json,
+        JdkSerialization
+    };
+
+    public enum YN {
+        Y, N;
+
+        public static boolean isEqualYes(final String yn) {
+            return Y.name().equals(yn);
+        }
+        public static boolean isEqualNo(final String yn) {
+            return N.name().equals(yn);
+        }
     }
 
     /**
      * Redis Operate 유형
-     * @author P125030
-     *
      */
     public static class RedisOpType {
         private RedisType redisType;
@@ -98,5 +111,4 @@ public class CacheConstants {
         HSET,
         SET
     }
-
 }

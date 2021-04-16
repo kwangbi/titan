@@ -1,6 +1,8 @@
 package com.greece.titan;
 
-import org.json.JSONException;
+import com.greece.titan.common.redis.RedisRepository;
+import com.greece.titan.dto.RedisEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,31 +10,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RedisTest {
 
     @Autowired
-    RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisRepository repository;
 
     @Test
-    public void redisBasicFunction_guide() throws JSONException {
-        //Given
-        String key = "iamkey";
-        String value = "iamvalue";
-
-        // redis에 set
-        redisTemplate.opsForValue().set(key, value);
-
-        // redis에서 get
-        //RedisVO redisVO = (RedisVO) redisTemplate.opsForValue().get(key);
-
-        // redis에서 data delete
-        redisTemplate.delete(key);
-
-        // redis에 해당 key를 가지고 있는지 확인
-        if (!redisTemplate.hasKey("999")) {
-            System.out.println("key 미존재");
-        }
+    public void redisRepository() {
+        RedisEntity entity = new RedisEntity();
+        entity.setFirstname("kwangmo");
+        entity.setLastname("yang");
+        entity.setAge(28);
+        repository.save(entity);
+        RedisEntity findEntity = repository.findByFirstname(entity.getFirstname());
+        log.debug("findEntity : {}",findEntity.toString());
+        //System.out.println(findEntity.toString());
     }
 }

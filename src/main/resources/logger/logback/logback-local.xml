@@ -88,17 +88,17 @@
 
     <!-- 오류 -->
     <logger name="errorTrace" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_INTG" />
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <!-- Accesslog -->
     <logger name="access" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_INTG" />
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <!-- tracelog -->
     <logger name="trace" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_INTG" />
+        <appender-ref ref="CONSOLE" />
     </logger>
 	<!-- icas i/o log -->
 	<logger name="icasio" level="TRACE" additivity="false">
@@ -106,7 +106,7 @@
 	</logger>    
     <!-- 업무 -->
     <logger name="com.skt.scm" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_INTG" />
+        <appender-ref ref="CONSOLE" />
     </logger>
     <!-- Root INFO declaration -->
     <root level="INFO" additivity="false">

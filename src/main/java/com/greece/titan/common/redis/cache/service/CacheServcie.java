@@ -1,11 +1,10 @@
-package com.greece.titan.common.redis.service;
+package com.greece.titan.common.redis.cache.service;
 
-import com.greece.titan.common.redis.cache.CacheConstants;
+import com.greece.titan.common.redis.CacheConstants;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Redis Cache 서비스 인터페이스
- *
  */
 public interface CacheServcie {
 
@@ -16,7 +15,6 @@ public interface CacheServcie {
      * @return
      */
     int getRedisOpType(String metaSet, CacheConstants.RedisType redisType);
-
     /**
      * Get key's entry name
      * @param entry
@@ -98,4 +96,7 @@ public interface CacheServcie {
      * @return Class<T> type key/value
      */
     <T> T getKeyByEntryNameAndId(String metaSet, String id, Class<T> clazz, CacheConstants.RedisType redisType);
+
+
+
 }

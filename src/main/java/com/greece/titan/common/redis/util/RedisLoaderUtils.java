@@ -1,7 +1,6 @@
 package com.greece.titan.common.redis.util;
 
-
-import com.greece.titan.common.redis.cache.CacheConstants;
+import com.greece.titan.common.redis.CacheConstants;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
@@ -11,12 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RedisLoaderUtils {
-    /**
-     * @param value
-     * @param redisSerializer
-     * @return byte[] serialized data for I/O
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     public static byte[] serialize(final Object value, final RedisSerializer redisSerializer) {
         if (redisSerializer == null && value instanceof byte[]) {
             return (byte[]) value;
