@@ -1,0 +1,55 @@
+httpconnpool:
+    connection-request-timeout: 3000
+    connection-timeout: 3000
+    default-max-per-route: 20
+    max-pending: 50
+    max-total: 20
+    socket-timeout: 3000
+mybatis:
+    configuration:
+        map-underscore-to-camel-case: true
+    mapper-locations: classpath:sql/**/*.xml
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        hikari:
+            auto-commit: false
+            connection-test-query: select 1 from dual
+            connection-timeout: 60000
+        password: root
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/test
+        username: root
+    redis:
+        database: 0
+        host: 127.0.0.1
+        init-cache: false
+        init-reset: true
+        lettuce:
+            pool:
+                max-active: 10
+                max-idle: 10
+                min-idle: 2
+        port: 6379
+        ssl: false
+    session:
+        redis:
+            flush-mode: on_save
+            namespace: spring:session
+        store-type: redis
+        timeout: 600
+titan:
+    redis:
+        main:
+            database: 0
+            host: 127.0.0.1
+            init-cache: false
+            init-reset: true
+            lettuce:
+                pool:
+                    max-active: 10
+                    max-idle: 10
+                    min-idle: 2
+                shutdown-timeout: 100ms
+            port: 6379
+            ssl: false
