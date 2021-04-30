@@ -34,7 +34,7 @@ spring:
         ssl: false
     session:
         redis:
-            flush-mode: on_save
+            flush-mode: ON_SAVE
             namespace: spring:session
         store-type: redis
         timeout: 600
